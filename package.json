@@ -1,0 +1,29 @@
+{
+  "name": "somehow-script",
+  "description": "",
+  "version": "0.0.1",
+  "licence": "CC-BY-4.0",
+  "private": true,
+  "author": "Spencer Kelly (spencermountain)",
+  "homepage": "https://github.com/spencermountain/somehow#readme",
+  "scripts": {
+    "watch": "npm run start",
+    "start": "budo index.js:assets/bundle.js --live",
+    "build:demo": "browserify index.js -t [ babelify --presets [ @babel/preset-env ] ] | derequire > ./assets/bundle.js",
+    "build": "node ./scripts/build.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "7.8.0",
+    "@babel/preset-env": "7.8.2",
+    "babelify": "10.0.0",
+    "budo": "11.6.3",
+    "derequire": "2.0.6",
+    "htm": "2.2.1",
+    "shelljs": "0.8.3",
+    "somehow": "0.3.5",
+    "somehow-input": "0.0.9",
+    "terser": "4.6.2",
+    "vhtml": "2.2.0"
+  }
+}
