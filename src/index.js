@@ -1,6 +1,18 @@
 const isNumber = /^[+-]?[0-9]+([0-9,.%]+)?/
 const hasComma = /,/
 
+const special = {
+  true: true,
+  false: false,
+  yes: true,
+  no: false,
+  nope: false,
+  null: null,
+  none: null,
+  nil: null,
+  undefined: null
+}
+
 const oneTemplate = function(str) {
   let key = null
   let val = null
@@ -18,10 +30,8 @@ const oneTemplate = function(str) {
   }
   key = key.toLowerCase()
   //cast values
-  if (typeof val === 'string' && val.toLowerCase() === 'true') {
-    val = true
-  } else if (typeof val === 'string' && val.toLowerCase() === 'false') {
-    val = false
+  if (typeof val === 'string' && special.hasOwnProperty(val.toLowerCase())) {
+    val = special[val.toLowerCase()]
   } else if (isNumber.test(val)) {
     val = parseFloat(val) || parseInt(val, 10) || val
     val = val === '0' ? 0 : val

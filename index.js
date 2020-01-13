@@ -19,7 +19,7 @@ doit(textarea.value)
 
 var editor = CodeMirror.fromTextArea(document.getElementById('text'), {
   viewportMargin: Infinity,
-  // mode: 'somehowscript',
+  mode: 'fancy',
   height: 'auto',
   width: 'auto',
   lineNumbers: false,
@@ -30,3 +30,9 @@ editor.on('change', doc => {
   let str = doc.getValue()
   doit(str)
 })
+
+// editor.markText(
+//   { line: 0, ch: 2 },
+//   { line: 5, ch: 5 },
+//   { css: 'background:yellow;font-weight:bold;', atomic: true }
+// )
