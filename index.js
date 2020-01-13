@@ -1,10 +1,7 @@
 const somehowScript = require('./src')
+// const somehowScript = require('./builds/somehow-script')
 const CodeMirror = require('./assets/codemirror')
-console.log(CodeMirror)
-require('./assets/simpleMode')(CodeMirror)
 require('./assets/somehowscript')(CodeMirror)
-// require('./assets/toml')(CodeMirror)
-// require('./assets/javascript')(CodeMirror)
 
 const textarea = document.querySelector('#text')
 const output = document.querySelector('#result')
@@ -14,7 +11,6 @@ const doit = function(str = '') {
   output.innerHTML = JSON.stringify(result.data, null, 2)
 }
 
-// textarea.onkeyup = e => doit(e.target.value)
 doit(textarea.value)
 
 var editor = CodeMirror.fromTextArea(document.getElementById('text'), {
@@ -30,9 +26,3 @@ editor.on('change', doc => {
   let str = doc.getValue()
   doit(str)
 })
-
-// editor.markText(
-//   { line: 0, ch: 2 },
-//   { line: 5, ch: 5 },
-//   { css: 'background:yellow;font-weight:bold;', atomic: true }
-// )
