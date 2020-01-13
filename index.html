@@ -9,6 +9,9 @@
     />
     <title></title>
     <link href="./assets/spencer.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="./assets/codemirror.css" />
+    <link rel="stylesheet" href="./assets/somehow.css" />
     <style></style>
   </head>
 
@@ -21,25 +24,37 @@
       demo
     </h2>
     <!-- stage -->
-    <div class="row mt4 mh4 outline h8 nowrap">
-      <textarea
-        id="text"
-        class="outline w75p h100p p2 dimgrey"
-        style="font-size:1.1rem; line-height:1.5rem;"
-      >
+    <div
+      class="row mt4 mh4 outline nowrap"
+      style="height:500px; text-align:left;"
+    >
+      <textarea id="text" class="w75p h100p p2 dimgrey">
 then why'd I have the bowl bart? Why'd I have the bowl??
-{working=true}
 
+
+{working=true}
 implied true: {implied}
-implied list: {ran, walked_dog}
+
+===Casting to types===
 explicit boolean: {explicit=false}
-multiword key: {blue jays won=false}
-number: {temperature=3.8}
+number: {float=3.8, four:4}
+
+===lists===
+implied keys: {ran, walked_dog}
 comma-seperated list= {friends:larry, curly,moe}
+
+===normalization===
+multiword key: {blue jays won=no, Blue-Jays-Won=yes}
+
+===increment/decrement===
+{wins=4}
+{wins=wins+2}
+{wins+=1}
+
       </textarea>
-      <pre id="result" class="left outline w25p bgblue white h100p p2">
-hello</pre
-      >
+      <textarea id="result" class="left outline w25p bgblue white h100p p2">
+        hello
+      </textarea>
     </div>
 
     <!--  footer -->

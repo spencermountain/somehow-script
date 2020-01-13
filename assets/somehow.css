@@ -1,0 +1,12 @@
+.cm-s-material.CodeMirror {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.cm-s-material .cm-bracket {
+  color: steelblue;
+}
