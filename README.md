@@ -12,7 +12,11 @@
 
 this is a *work-in-progress* markup format for creating metadata in text.
 
-![image](https://user-images.githubusercontent.com/399657/102024107-e9e0aa80-3d5d-11eb-9db6-f85bd8ac0c28.png)
+<div align="center">
+  <a href="http://spencermounta.in/somehow-script/">
+    <img src="https://user-images.githubusercontent.com/399657/102024107-e9e0aa80-3d5d-11eb-9db6-f85bd8ac0c28.png"/>
+  </a>
+</div>
 
 
 It is inspired by a good number of similar projects:
