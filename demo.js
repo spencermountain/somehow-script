@@ -11,8 +11,6 @@ var editor = CodeMirror.fromTextArea(document.getElementById('text'), {
   lineNumbers: false,
   theme: 'material',
   autofocus: true,
-  // inputStyle: 'textarea',
-  addModeClass: false,
 })
 
 let doc = editor.getDoc()

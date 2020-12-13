@@ -1,7 +1,7 @@
 {
   "name": "somehow-script",
   "description": "",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "licence": "CC-BY-4.0",
   "main": "./builds/somehow-script.js",
   "unpkg": "./builds/somehow-script.min.js",
@@ -11,10 +11,10 @@
   "homepage": "https://github.com/spencermountain/somehow-script#readme",
   "scripts": {
     "watch": "npm run start",
-    "start": "budo index.js:assets/bundle.js --live",
-    "build:demo": "browserify index.js -t [ babelify --presets [ @babel/preset-env ] ] | derequire > ./assets/bundle.js",
+    "start": "budo demo.js:assets/bundle.js --live",
+    "build:demo": "browserify demo.js -t [ babelify --presets [ @babel/preset-env ] ] | derequire > ./assets/bundle.js",
     "build": "rollup -c",
-    "test:spec": "tape \"./tests/*.test.js\" | tap-spec"
+    "test": "tape \"./tests/*.test.js\" | tap-spec"
   },
   "dependencies": {
     "tap-dancer": "^0.3.1",

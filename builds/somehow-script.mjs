@@ -89,7 +89,13 @@ var somehowScript = function somehowScript(text) {
 
 var parse = somehowScript;
 
+function escapeRegExp(string) {
+  string = string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+
+  return new RegExp(string);
+}
 /** parse somehow-script text into json */
+
 
 var smh = function smh(text, opts) {
   return parse(text);
@@ -97,15 +103,25 @@ var smh = function smh(text, opts) {
 /** remove all annotations from input */
 
 
-smh.prototype.strip = function (text, opts) {
+smh.strip = function (text, opts) {
   var tags = parse(text).data;
+  tags.forEach(function (o) {
+    var reg = escapeRegExp(o.text);
+    text = text.replace(reg, '');
+  });
   return text;
 };
 /** wrap all annotations in span tags */
 
 
-smh.prototype.strip = function (text, opts) {
+smh.html = function (text, opts) {
   var tags = parse(text).data;
+  tags.forEach(function (o) {
+    var reg = escapeRegExp(o.text);
+    text = text.replace(reg, function (a) {
+      return "<span class=\"smh-tag\">".concat(a, "</span>");
+    });
+  });
   return text;
 };
 

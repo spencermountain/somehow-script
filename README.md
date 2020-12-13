@@ -43,12 +43,22 @@ can add multiple properties at once
 
 automatically parses lists
 .film[actors=Brad Pitt, Tom Cruise]
-
 `
-
 console.log(smh(text))
 /*
-
+{
+  data: [
+    { name: 'film', props: {}, text: '.film', offset: 124, len: 5 },
+    {
+      name: 'film',
+      props: { name: 'Interview with a Vampire' },
+      text: '.film[name: Interview with a Vampire]',
+      offset: 186,
+      len: 37
+    },
+    ...
+  ]
+}
 */
 
 // remove all annotations

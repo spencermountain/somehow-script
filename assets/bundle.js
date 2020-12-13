@@ -1,7 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(_dereq_,module,exports){
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: https://codemirror.net/LICENSE
@@ -14583,159 +14583,185 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 },{}],2:[function(_dereq_,module,exports){
 "use strict";
 
-var somehowscript = function somehowscript(CodeMirror) {
-  CodeMirror.defineMode('fancy', function () {
-    return {
-      startState: function startState() {
-        return {
-          inBracket: 0
-        };
-      },
-      token: function token(stream, state) {
-        if (state.inBracket > 0 && stream.skipTo('}')) {
-          stream.next();
-          state.inBracket -= 1;
-          return 'bracket';
-        }
-
-        if (state.inBracket === 0 && stream.peek() === '{') {
-          // single-line
-          if (stream.skipTo('}')) {
-            stream.next(); // state.inBracket -= 1
-
-            return 'bracket';
-          }
-
-          state.inBracket += 1;
-        }
-
-        if (state.inBracket > 0) {
-          stream.next();
-          return 'bracket';
-        }
-
-        stream.next();
-        return null;
-      }
-    };
-  });
-  CodeMirror.defineMIME('text/x-somehow', 'somehowscript');
-};
-
-module.exports = somehowscript;
-
-},{}],3:[function(_dereq_,module,exports){
-"use strict";
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-(function (global, factory) {
-  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.compromiseDates = factory());
-})(void 0, function () {
-  'use strict';
-
-  var isNumber = /^[+-]?[0-9]+([0-9,.%]+)?/;
-  var hasComma = /,/;
-  var special = {
-    "true": true,
-    "false": false,
-    yes: true,
-    no: false,
-    nope: false,
-    "null": null,
-    none: null,
-    nil: null,
-    undefined: null
-  };
-
-  var oneTemplate = function oneTemplate(str) {
-    var key = null;
-    var val = null;
-    str = str.trim();
-    str = str.replace(/^\{/, '');
-    str = str.replace(/\}$/, '');
-    var keyVal = str.match(/(.*?)[=:](.*)/);
-
-    if (keyVal) {
-      key = keyVal[1].trim();
-      val = keyVal[2].trim();
-    } else {
-      //implicit true
-      key = str;
-      val = true;
-    }
-
-    key = key.toLowerCase(); //cast values
-
-    if (typeof val === 'string' && special.hasOwnProperty(val.toLowerCase())) {
-      val = special[val.toLowerCase()];
-    } else if (isNumber.test(val)) {
-      val = parseFloat(val) || parseInt(val, 10) || val;
-      val = val === '0' ? 0 : val;
-    } else if (hasComma.test(val)) {
-      val = val.split(',').map(function (s) {
-        return s.trim();
-      });
-    } //support multi-keys
-
-
-    if (hasComma.test(key)) ;
-    var result = {};
-    result[key] = val;
-    return result;
-  };
-
-  var somehowScript = function somehowScript(text) {
-    var templates = text.match(/\{.*?\}/g) || [];
-    var errors = [];
-    var data = {};
-    templates.forEach(function (str) {
-      var info = oneTemplate(str);
-      data = Object.assign(data, info);
-    });
-    return {
-      data: data,
-      errors: errors,
-      text: text
-    };
-  };
-
-  var src = somehowScript;
-  return src;
-});
-
-},{}],4:[function(_dereq_,module,exports){
-"use strict";
-
-// const somehowScript = require('./src')
-var somehowScript = _dereq_('./builds/somehow-script');
+var smh = _dereq_('./src');
 
 var CodeMirror = _dereq_('./assets/codemirror');
 
-_dereq_('./assets/somehowscript')(CodeMirror);
-
 var textarea = document.querySelector('#text');
 var output = document.querySelector('#result');
-
-var doit = function doit() {
-  var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  var result = somehowScript(str);
-  output.innerHTML = JSON.stringify(result.data, null, 2);
-};
-
-doit(textarea.value);
 var editor = CodeMirror.fromTextArea(document.getElementById('text'), {
   viewportMargin: Infinity,
-  mode: 'fancy',
   height: 'auto',
   width: 'auto',
   lineNumbers: false,
   theme: 'material',
   autofocus: true
 });
-editor.on('change', function (doc) {
-  var str = doc.getValue();
-  doit(str);
-});
+var doc = editor.getDoc();
 
-},{"./assets/codemirror":1,"./assets/somehowscript":2,"./builds/somehow-script":3}]},{},[4]);
+var doit = function doit() {
+  var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  // clear existing marks
+  doc.getAllMarks().forEach(function (m) {
+    return m.clear();
+  });
+  var result = smh(str); // console.log(result.data)
+
+  output.innerHTML = JSON.stringify(result.data, null, 2); // highlight each piece of metadata
+
+  result.data.forEach(function (o) {
+    var start = doc.posFromIndex(o.offset);
+    var end = doc.posFromIndex(o.offset + o.len);
+    editor.markText(start, end, {
+      className: 'blue',
+      inclusiveLeft: false,
+      inclusiveRight: false
+    });
+  });
+};
+
+editor.on('change', function (d) {
+  var str = d.getValue();
+  doit(str);
+}); // fire on init
+
+doit(textarea.value);
+
+},{"./assets/codemirror":1,"./src":3}],3:[function(_dereq_,module,exports){
+"use strict";
+
+var parse = _dereq_('./parse');
+
+function escapeRegExp(string) {
+  string = string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+
+  return new RegExp(string);
+}
+/** parse somehow-script text into json */
+
+
+var smh = function smh(text, opts) {
+  return parse(text, opts);
+};
+/** remove all annotations from input */
+
+
+smh.strip = function (text, opts) {
+  var tags = parse(text, opts).data;
+  tags.forEach(function (o) {
+    var reg = escapeRegExp(o.text);
+    text = text.replace(reg, '');
+  });
+  return text;
+};
+/** wrap all annotations in span tags */
+
+
+smh.html = function (text, opts) {
+  var tags = parse(text, opts).data;
+  tags.forEach(function (o) {
+    var reg = escapeRegExp(o.text);
+    text = text.replace(reg, function (a) {
+      return "<span class=\"smh-tag\">".concat(a, "</span>");
+    });
+  });
+  return text;
+};
+
+module.exports = smh;
+
+},{"./parse":4}],4:[function(_dereq_,module,exports){
+"use strict";
+
+var tagReg = /\.[a-z][a-z0-9]+(\[.*\])?/gi;
+var isNumber = /^[+-]?[0-9]+([0-9,.%]+)?/;
+var hasComma = /,/;
+var special = {
+  "true": true,
+  "false": false,
+  yes: true,
+  no: false,
+  nope: false,
+  "null": null,
+  none: null,
+  nil: null,
+  undefined: null
+};
+
+var normalize = function normalize(str) {
+  str = str.toLowerCase();
+  str = str.trim();
+  return str;
+};
+
+var parseBracket = function parseBracket(str) {
+  var key = null;
+  var val = null;
+  str = str.trim();
+  str = str.replace(/^\[/, '');
+  str = str.replace(/\]$/, '');
+
+  if (!str) {
+    return {};
+  }
+
+  var keyVal = str.match(/(.*?)[=:](.*)/);
+
+  if (keyVal) {
+    key = keyVal[1].trim();
+    val = keyVal[2].trim();
+  } else {
+    //implicit true
+    key = str;
+    val = true;
+  }
+
+  key = normalize(key); //cast values
+
+  if (typeof val === 'string' && special.hasOwnProperty(val.toLowerCase())) {
+    val = special[val.toLowerCase()];
+  } else if (isNumber.test(val)) {
+    val = parseFloat(val) || parseInt(val, 10) || val;
+    val = val === '0' ? 0 : val;
+  } else if (hasComma.test(val)) {
+    val = val.split(',').map(function (s) {
+      return s.trim();
+    });
+  }
+
+  var result = {};
+  result[key] = val;
+  return result;
+};
+
+var parseTag = function parseTag(str) {
+  str = normalize(str);
+  str = str.replace(/^\./, '');
+  str = str.replace(/(\[.*\])/, '');
+  return str.trim();
+};
+
+var somehowScript = function somehowScript(text) {
+  var data = [];
+  var errors = [];
+  text.replace(tagReg, function () {
+    var tag = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var bracket = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    var offset = arguments.length > 2 ? arguments[2] : undefined;
+    data.push({
+      name: parseTag(tag),
+      props: parseBracket(bracket),
+      text: tag,
+      offset: offset,
+      len: tag.length
+    });
+  });
+  return {
+    data: data,
+    errors: errors
+  };
+};
+
+module.exports = somehowScript;
+
+},{}]},{},[2]);
