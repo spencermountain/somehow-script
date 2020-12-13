@@ -10,41 +10,62 @@
   </a>
 </div>
 
-**work in progress**
+this is a *work-in-progress* markup format for creating metadata in text.
 
-this is a work-in-progress data-entry format.
+It is inspired by a good number of similar projects:
+  * [pugjs](https://pugjs.org/api/getting-started.html) - period-based control-chars
+  * [margin](https://margin.love) - flexible use of `[ ]` chars
+  * [archieml](http://archieml.org/) - interchangable `=` and `:`
+  * [TOML](https://github.com/toml-lang/toml) - typing of booleans+dates
+  * [literate coffeescript](http://sukima.github.io/litcoffee-presentation/) - encourage freehand text
 
+
+### Usage
 `npm i somehow-script`
 
 ```js
-const somehowScript = require('somehow-script')
+const smh = require('./src')
 
-let text = `
-the sex cauldron? I thought they closed that place down.
-{brushed teeth=true}
+let text = `in the town where I was born
+there lived a man, who sailed the seas.
 
+the simplest tag is a word that begins with a period:
+.film
 
-Why'd I have the bowl Bart? why I'd I have he bowl??
-{
-   ate: banana, granola
+square-brackets allow adding key-value data to the tag
+.film[name: Interview with a Vampire]
 
-  coffee=2 
-}
+somehow-script automatically parses dates+times
+.film[release=July 1992]
+
+can add multiple properties at once
+.film[release=July 1992, budget=12m]
+
+automatically parses lists
+.film[actors=Brad Pitt, Tom Cruise]
+
 `
 
-let ticks = somehowScript(text)
+console.log(smh(text))
 /*
-{
-  data:{
-    brushed_teeth:true,
-    ate:['banana', 'granola'],
-    coffee:2
-  },
-  text:'...'
-}
+
 */
+
+// remove all annotations
+console.log(smh.strip(text))
+// wrap annotations in generic span tags
+console.log(smh.html(text))
 ```
 
-It is inspired by [TOML](https://github.com/toml-lang/toml), [literate coffeescript](http://sukima.github.io/litcoffee-presentation/#/step-1), and [archieml](http://archieml.org/)
+### Goals
+  * create folk-style triplets (without being too-semantic-web)
+  * rarely collide with natural text (few false positives)
+    * avoid collisions with markdown.
+    * avoid collisions with hashtags/atmentions/email/emoticons
+  * easy creation on mobile keyboards
+  * allow chaining 
+  * support parsing of natural-language dates (via spacetime)
+  * parsing of natural-language numbers (via compromise-tokenize, compromise-numbers)
+  * wysiwyg via code/prose-mirror
 
 MIT

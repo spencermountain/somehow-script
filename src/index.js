@@ -1,65 +1,19 @@
-const isNumber = /^[+-]?[0-9]+([0-9,.%]+)?/
-const hasComma = /,/
+const parse = require('./parse')
 
-const special = {
-  true: true,
-  false: false,
-  yes: true,
-  no: false,
-  nope: false,
-  null: null,
-  none: null,
-  nil: null,
-  undefined: null
+/** parse somehow-script text into json */
+const smh = function (text, opts) {
+  return parse(text, opts)
 }
 
-const oneTemplate = function(str) {
-  let key = null
-  let val = null
-  str = str.trim()
-  str = str.replace(/^\{/, '')
-  str = str.replace(/\}$/, '')
-  let keyVal = str.match(/(.*?)[=:](.*)/)
-  if (keyVal) {
-    key = keyVal[1].trim()
-    val = keyVal[2].trim()
-  } else {
-    //implicit true
-    key = str
-    val = true
-  }
-  key = key.toLowerCase()
-  //cast values
-  if (typeof val === 'string' && special.hasOwnProperty(val.toLowerCase())) {
-    val = special[val.toLowerCase()]
-  } else if (isNumber.test(val)) {
-    val = parseFloat(val) || parseInt(val, 10) || val
-    val = val === '0' ? 0 : val
-  } else if (hasComma.test(val)) {
-    val = val.split(',').map(s => s.trim())
-  }
-  //support multi-keys
-  if (hasComma.test(key)) {
-  }
-
-  let result = {}
-  result[key] = val
-  return result
+/** remove all annotations from input */
+smh.prototype.strip = function (text, opts) {
+  let tags = parse(text, opts).data
+  return text
 }
 
-const somehowScript = function(text) {
-  let templates = text.match(/\{.*?\}/g) || []
-  let errors = []
-  let data = {}
-  templates.forEach(str => {
-    let info = oneTemplate(str)
-    data = Object.assign(data, info)
-  })
-
-  return {
-    data: data,
-    errors: errors,
-    text: text
-  }
+/** wrap all annotations in span tags */
+smh.prototype.strip = function (text, opts) {
+  let tags = parse(text, opts).data
+  return text
 }
-module.exports = somehowScript
+module.exports = smh

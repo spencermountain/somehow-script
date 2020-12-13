@@ -9,10 +9,17 @@
     />
     <title></title>
     <link href="./assets/spencer.min.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="./assets/codemirror.css" />
     <link rel="stylesheet" href="./assets/somehow.css" />
-    <style></style>
+    <style>
+      .blue{
+        background-color:steelblue;
+        color:#fbfbfb;
+        border-radius:4px;
+        box-shadow: 2px 2px 8px 0px rgba( 0, 0, 0, 0.2 );
+        padding:4px;
+      }
+    </style>
   </head>
 
   <body class="body">
@@ -29,31 +36,28 @@
       style="height:500px; text-align:left;"
     >
       <textarea id="text" class="w75p h100p p2 dimgrey">
-then why'd I have the bowl bart? Why'd I have the bowl??
+in the town where I was born
+there lived a man, who sailed the seas.
 
+the simplest tag is a word that begins with a period:
+.film
 
-{working=true}
-implied true: {implied}
+square-brackets allow adding key-value data to the tag
+.film[name: Interview with a Vampire]
 
-===Casting to types===
-explicit boolean: {explicit=false}
-number: {float=3.8, four:4}
+somehow-script automatically parses dates+times
+.film[release=July 1992]
 
-===lists===
-implied keys: {ran, walked_dog}
-comma-seperated list= {friends:larry, curly,moe}
+can add multiple properties at once
+.film[release=July 1992, budget=12m]
 
-===normalization===
-multiword key: {blue jays won=no, Blue-Jays-Won=yes}
-
-===increment/decrement===
-{wins=4}
-{wins=wins+2}
-{wins+=1}
+automatically parses lists
+.film[actors=Brad Pitt, Tom Cruise]
+        
 
       </textarea>
       <textarea id="result" class="left outline w25p bgblue white h100p p2">
-        hello
+        -
       </textarea>
     </div>
 
